@@ -1,0 +1,3 @@
+class Librarian < User
+    
+end
