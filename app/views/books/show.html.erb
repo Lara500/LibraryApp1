@@ -1,0 +1,15 @@
+<!-- app/views/books/show.html.erb -->
+
+<h1><%= @book.title %></h1>
+<p>
+  <strong>Autor:</strong>
+  <%= @book.author %>
+</p>
+<p>
+  <strong>Opis:</strong>
+  <%= @book.description %>
+</p>
+<!-- Dodaj więcej pól, jeśli potrzebujesz -->
+
+<%= link_to 'Edytuj', edit_book_path(@book) %> |
+<%= link_to 'Powrót do Listy', books_path %>
