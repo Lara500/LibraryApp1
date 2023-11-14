@@ -12,7 +12,14 @@
 
   <body>
     <% if user_signed_in? %>
-    <%= link_to 'Wyloguj', destroy_user_session_path, method: :delete %>
+      <% if current_user.type = 'Librarian'%>
+        <p>Zalogowany jako: Bibliotekarz</p>
+      <% elsif current_user.type = 'Reader' %>
+        <p>Zalogowany jako: Czytelnik</p>
+      <% end %>
+      <%= link_to 'Wyloguj', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to 'Zaloguj', new_user_session_path %>
     <% end %>
     <%= yield %>
   </body>
