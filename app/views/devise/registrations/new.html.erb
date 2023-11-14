@@ -26,6 +26,18 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <%= f.label :first_name, "Imię" %>
+  <%= f.text_field :first_name %>
+
+  <%= f.label :last_name, "Nazwisko" %>
+  <%= f.text_field :last_name %>
+
+  <%= f.label :birth_date, "Data urodzenia" %>
+  <%= f.date_field :birth_date %>
+
+  <%= f.label :phone_number, "Numer telefonu" %>
+  <%= f.telephone_field :phone_number %>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
