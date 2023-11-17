@@ -6,4 +6,10 @@ Rails.application.routes.draw do
   root "books#index"
   resources :books
   resources :rentals
+
+  resources :rentals do
+    member do
+      post :return
+    end
+  end
 end

@@ -17,5 +17,9 @@
 <%= link_to 'Powrót do Listy', books_path %>
 
 <% if current_user.librarian? %>
-  <%= link_to 'Wypożycz książkę', new_rental_path(book_id: @book.id), class: 'btn btn-primary' %>
+  <% if @book.is_available %>
+    <%= link_to 'Wypożycz książkę', new_rental_path(book_id: @book.id), class: 'btn btn-primary' %>
+  <% else %>
+    <%= link_to 'Zwróć książkę', return_book_path(@book.id), method: :post, class: 'btn btn-primary' %>
+  <% end %>
 <% end %>

@@ -15,6 +15,11 @@ class RentalsController < ApplicationController
 
           @rental = Rental.new(rental_params)
           @rental.user_id = reader.id
+
+          @rental.rental_status = 'wypożyczona'
+          @rental.rental_date = Time.current
+          @rental.return_date = Date.current + 4.weeks
+          @rental.overdue = false
       
           if @rental.save
             redirect_to book_path(@rental.book_id), notice: "Książka wypożyczona pomyślnie."
@@ -26,7 +31,27 @@ class RentalsController < ApplicationController
           render :new
         end
       end
-  
+
+#do dokończenia jak będą dodane widoki wyświetlania wypożyczeń
+      def return
+
+        @rental = Rental.find_by(params[:id])
+      
+        if @rental
+          @rental.return_date = Time.current
+          @rental.rental_status = 'zwrócona' # Aktualizacja statusu
+          @rental.overdue = check_overdue(@rental)
+      
+          if @rental.save
+            redirect_to somewhere_path, notice: 'Książka została pomyślnie zwrócona.'
+          else
+            render :edit, alert: 'Nie udało się zwrócić książki.'
+          end
+        else
+          redirect_to somewhere_path, alert: 'Nie znaleziono wypożyczenia.'
+        end
+      end
+
     private
   
     def rental_params
@@ -46,6 +71,10 @@ class RentalsController < ApplicationController
         unless current_user.librarian?
           redirect_to root_path, alert: "Tylko bibliotekarze mogą zarządzać książkami."
         end
-      end
+    end
+
+    def check_overdue(rental)
+      rental.return_date > rental.expected_return_date
+    end
   end
   
