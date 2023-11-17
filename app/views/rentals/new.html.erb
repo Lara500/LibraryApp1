@@ -1,0 +1,12 @@
+<!-- app/views/rentals/new.html.erb -->
+<%= form_with model: @rental, url: rentals_path, local: true do |form| %>
+  <%= form.hidden_field :book_id %>
+
+  <%= form.label :number, "Numer Karty Czytelnika" %>
+  <%= form.text_field :number %>
+
+  <%= form.label :code, "Kod Karty Czytelnika" %>
+  <%= form.text_field :code %>
+
+  <%= form.submit "Wypożycz" %>
+<% end %>

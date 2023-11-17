@@ -22,4 +22,6 @@
   </tbody>
 </table>
 
-<%= link_to 'Dodaj Nową Książkę', new_book_path %>
+<% if current_user.librarian? %>
+  <%= link_to 'Dodaj Nową Książkę', new_book_path %>
+<% end %>

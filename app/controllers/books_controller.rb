@@ -1,4 +1,7 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!  # Devise authentication
+  before_action :check_librarian, only: [:new, :create, :edit, :update, :destroy]
+
     def index
       @books = Book.all
     end
@@ -45,6 +48,12 @@ class BooksController < ApplicationController
 
     def book_params
         params.require(:book).permit(:title, :author, :description, :genre, :release_date, :publisher, :ISBN, :page_number, :translation, :rental_status)
+    end
+
+    def check_librarian
+      unless current_user.librarian?
+        redirect_to root_path, alert: "Tylko bibliotekarze mogą zarządzać książkami."
+      end
     end
 end
   
