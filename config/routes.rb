@@ -12,4 +12,8 @@ Rails.application.routes.draw do
       post :return
     end
   end
+
+  post 'identify_reader', to: 'rentals#identify_reader'
+  get 'show_reader_form', to: 'rentals#show_reader_form'
+
 end

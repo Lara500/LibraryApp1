@@ -32,6 +32,20 @@ class RentalsController < ApplicationController
         end
       end
 
+      def show_reader_form
+      end
+      
+      def identify_reader
+        reader_card = ReaderCard.find_by(number: params[:number], code: params[:code])
+    
+        if reader_card
+          session[:current_reader_id] = reader_card.user_id
+          redirect_to new_rental_path, notice: "Czytelnik zidentyfikowany."
+        else
+          redirect_to show_reader_form_path, alert: "Nieprawidłowy numer lub kod karty."
+        end
+      end
+
 #do dokończenia jak będą dodane widoki wyświetlania wypożyczeń
       def return
 
