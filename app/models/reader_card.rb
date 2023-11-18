@@ -1,6 +1,7 @@
 class ReaderCard < ApplicationRecord
   belongs_to :user
-
+  validates :number, presence: true
+  validates :code, presence: true
   validate :user_must_be_a_reader
 
   private

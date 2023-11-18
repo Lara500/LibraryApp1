@@ -12,11 +12,18 @@
 
   <body>
     <% if user_signed_in? %>
+      <%= button_to 'Powrót', 'javascript:history.back()', method: :get, class: 'btn btn-secondary' %>
       <% if current_user.type == 'Librarian'%>
         <p>Zalogowany jako: Bibliotekarz</p>
-        <%= link_to 'Zweryfikuj czytelnika', show_reader_form_path, class: 'btn btn-primary' %>
+        <% if session[:current_reader_id].present? %>
+          <%= link_to 'Wypożyczenia Czytelnika', index_rentals_path, class: 'btn btn-primary' %>
+          <%= link_to 'Zapomnij czytelnika', forget_reader_path, class: 'btn btn-secondary' %>
+        <% else %>
+          <%= link_to 'Zweryfikuj czytelnika', show_reader_card_path, class: 'btn btn-primary' %>
+        <% end %>
       <% elsif current_user.type == 'Reader' %>
         <p>Zalogowany jako: Czytelnik</p>
+        <%= link_to 'Wypożyczenia Czytelnika', index_rentals_path, class: 'btn btn-primary' %>
       <% end %>
       <%= link_to 'Wyloguj', destroy_user_session_path, method: :delete %>
     <% else %>

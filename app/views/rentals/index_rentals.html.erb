@@ -1,0 +1,28 @@
+<h1>Wypożyczenia Czytelnika: <%= @reader.first_name + " " + @reader.last_name %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tytuł Książki</th>
+      <th>Data Wypożyczenia</th>
+      <th>Data Zwrotu</th>
+      <th>Data Zwrócenia</th>
+      <th>Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rentals.each do |rental| %>
+      <tr>
+        <td><%= link_to rental.book.title, book_path(rental.book) %></td>
+        <td><%= rental.created_at.to_date %></td>
+        <td><%= rental.expected_return_date %></td>
+        <td><%= rental.return_date %></td>
+        <% if current_user.librarian? && rental.return_date == nil%>
+          <td>
+            <%= link_to 'Zwróć', return_rental_path(rental), method: :post, class: 'btn btn-primary' %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

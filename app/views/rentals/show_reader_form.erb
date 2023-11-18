@@ -1,9 +1,0 @@
-<%= form_with url: identify_reader_path, method: :post do |form| %>
-  <%= form.label :number, "Numer Karty" %>
-  <%= form.text_field :number %>
-
-  <%= form.label :code, "Kod Karty" %>
-  <%= form.text_field :code %>
-
-  <%= form.submit "Zidentyfikuj Czytelnika" %>
-<% end %>

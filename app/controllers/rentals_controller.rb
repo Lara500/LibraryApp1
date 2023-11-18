@@ -1,68 +1,62 @@
 class RentalsController < ApplicationController
     before_action :authenticate_user!  # Devise authentication
     before_action :check_librarian, only: [:new, :create, :edit, :update, :destroy]
+    before_action :require_reader_identification, only: [:create, :new]
   
-    def new
+  def new
         @rental = Rental.new
         @rental.book_id = params[:book_id] if params[:book_id]
       end
   
-      def create
-        verification_params = verify_params
-        reader = verify_reader(verification_params[:number], verification_params[:code])
-        
-        if reader
 
-          @rental = Rental.new(rental_params)
-          @rental.user_id = reader.id
+    def create
+      reader = verify_reader(session[:current_reader_id]) 
 
-          @rental.rental_status = 'wypożyczona'
-          @rental.rental_date = Time.current
-          @rental.return_date = Date.current + 4.weeks
-          @rental.overdue = false
-      
-          if @rental.save
-            redirect_to book_path(@rental.book_id), notice: "Książka wypożyczona pomyślnie."
-          else
-            render :new
-          end
-        else
-          flash.now[:alert] = "Nieprawidłowy numer lub kod karty."
-          render :new
-        end
+    if reader
+
+       @rental = Rental.new(rental_params)
+       @rental.user_id = reader.id
+       @rental.rental_date = Time.current
+       @rental.expected_return_date = Date.current + 4.weeks
+       @rental.overdue = false
+       check_availability
+
+      else
+        flash.now[:alert] = "Nieprawidłowy numer lub kod karty."
+        render :new
       end
+    end
 
-      def show_reader_form
-      end
-      
-      def identify_reader
-        reader_card = ReaderCard.find_by(number: params[:number], code: params[:code])
-    
-        if reader_card
-          session[:current_reader_id] = reader_card.user_id
-          redirect_to new_rental_path, notice: "Czytelnik zidentyfikowany."
-        else
-          redirect_to show_reader_form_path, alert: "Nieprawidłowy numer lub kod karty."
-        end
-      end
+    def index_rentals
 
-#do dokończenia jak będą dodane widoki wyświetlania wypożyczeń
+      if current_user.type == 'Librarian'
+        user_id = session[:current_reader_id]
+      elsif current_user.type == 'Reader'
+        user_id = current_user.id
+      end
+      @reader = User.find(user_id) # Zakładając, że identyfikacja czytelnika przechowywana jest w sesji
+      @rentals = Rental.where(user_id: @reader.id)
+    end
+
       def return
 
-        @rental = Rental.find_by(params[:id])
+        @rental = Rental.find_by(id: params[:id])
+        @book = Book.find_by(id: @rental.book_id)
       
         if @rental
           @rental.return_date = Time.current
-          @rental.rental_status = 'zwrócona' # Aktualizacja statusu
+          @rental.rental_status = 'zwrócona'
+          @book.update(status: 'dostępna')
+
           @rental.overdue = check_overdue(@rental)
       
           if @rental.save
-            redirect_to somewhere_path, notice: 'Książka została pomyślnie zwrócona.'
+            redirect_to index_rentals_path, notice: 'Książka została pomyślnie zwrócona.'
           else
             render :edit, alert: 'Nie udało się zwrócić książki.'
           end
         else
-          redirect_to somewhere_path, alert: 'Nie znaleziono wypożyczenia.'
+          redirect_to index_rentals_path, alert: 'Nie znaleziono wypożyczenia.'
         end
       end
 
@@ -76,8 +70,7 @@ class RentalsController < ApplicationController
         params.require(:rental).permit(:number, :code)
     end
   
-    def verify_reader(number, code)
-        user_id = ReaderCard.find_by(number: number, code: code).user_id
+    def verify_reader(user_id)
         User.find_by(id: user_id, type: 'Reader')
     end
 
@@ -89,6 +82,29 @@ class RentalsController < ApplicationController
 
     def check_overdue(rental)
       rental.return_date > rental.expected_return_date
+    end
+
+    def require_reader_identification
+      unless session[:current_reader_id].present?
+        session[:return_to] = request.fullpath
+        redirect_to show_reader_card_path, alert: "Najpierw zidentyfikuj czytelnika."
+      end
+    end
+
+    def check_availability
+      book = Book.find_by(id: @rental.book_id)
+      if book.status == 'dostępna'
+        @rental.rental_status = 'wypożyczona'
+        book.update(status: 'wypożyczona')
+
+        if @rental.save
+          redirect_to book_path(@rental.book_id), notice: "Książka wypożyczona pomyślnie."
+        else
+          render :new
+        end
+      else
+        redirect_to book_path(@rental.book_id), alert: "Książka nie jest dostępna do wypożyczenia."
+      end
     end
   end
   

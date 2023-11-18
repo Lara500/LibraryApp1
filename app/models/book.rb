@@ -5,6 +5,6 @@ class Book < ApplicationRecord
     def is_available
         # Tutaj dodaj logikę określającą, czy książka jest dostępna.
         # Przykładowo, możesz sprawdzić, czy `rental_status` jest równy "Dostępna".
-        rental_status == "Dostępna"
+        status == "dostępna"
     end
 end

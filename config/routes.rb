@@ -5,15 +5,15 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "books#index"
   resources :books
-  resources :rentals
 
-  resources :rentals do
+  resources :rentals, except: [:show] do
     member do
       post :return
     end
   end
 
-  post 'identify_reader', to: 'rentals#identify_reader'
-  get 'show_reader_form', to: 'rentals#show_reader_form'
-
+  get '/reader_cards/show_reader_card', to: 'reader_cards#show_reader_card', as: 'show_reader_card'
+  post '/reader_cards/identify_reader', to: 'reader_cards#identify_reader', as: 'identify_reader'
+  get '/reader_cards/forget_reader', to: 'reader_cards#forget_reader', as: 'forget_reader'
+  get 'rentals/index_rentals', to: 'rentals#index_rentals', as: 'index_rentals'
 end

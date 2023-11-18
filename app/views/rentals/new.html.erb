@@ -1,12 +1,24 @@
 <!-- app/views/rentals/new.html.erb -->
+
+<% if @book.present? %>
+  <h2>Informacje o książce:</h2>
+  <p><strong>Tytuł:</strong> <%= @book.title %></p>
+  <p><strong>Autor:</strong> <%= @book.author %></p>
+<% end %>
+
+<% if @reader.present? %>
+  <h2>Informacje o czytelniku:</h2>
+  <p><strong>Imię i nazwisko:</strong> <%= @reader.full_name %></p> <!-- Zakładając, że masz metodę full_name w modelu User -->
+  <p><strong>Numer karty:</strong> <%= @reader_card.number %></p> <!-- Zakładając, że masz zmienną @reader_card -->
+<% end %>
+
+<% if @book.present? && @reader.present? %>
+  <!-- Tutaj możesz dodać link do akcji wypożyczenia, jeśli potrzebujesz -->
+  <%= link_to "Wypożycz książkę", some_path_to_rental_action, method: :post, class: 'btn btn-primary' %>
+<% end %>
+
 <%= form_with model: @rental, url: rentals_path, local: true do |form| %>
   <%= form.hidden_field :book_id %>
-
-  <%= form.label :number, "Numer Karty Czytelnika" %>
-  <%= form.text_field :number %>
-
-  <%= form.label :code, "Kod Karty Czytelnika" %>
-  <%= form.text_field :code %>
 
   <%= form.submit "Wypożycz" %>
 <% end %>

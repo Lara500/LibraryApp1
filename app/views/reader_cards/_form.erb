@@ -1,0 +1,39 @@
+<% flash.each do |key, value| %>
+  <div class="flash <%= key %>"><%= value %></div>
+<% end %>
+
+<%= form_with url: identify_reader_path, method: :post, data: { turbolinks: false } do |form| %>
+  <%= form.label :number, "Numer Karty" %>
+  <%= form.text_field :number %>
+
+  <%= form.label :code, "Kod Karty" %>
+  <%= form.text_field :code %>
+
+  <%= form.submit "Zidentyfikuj Czytelnika" %>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const form = document.querySelector('form');
+    const numberInput = form.querySelector('[name="number"]');
+    const codeInput = form.querySelector('[name="code"]');
+    const errorMessageDiv = document.createElement('div');
+    errorMessageDiv.style.color = 'red';
+
+    form.insertBefore(errorMessageDiv, form.firstChild);
+
+    form.onsubmit = function() {
+      const number = numberInput.value;
+      const code = codeInput.value;
+      if (number === '' || code === '') {
+        errorMessageDiv.textContent = 'Pola numeru karty i kodu nie mogą być puste.';
+        return false;
+      } else {
+        errorMessageDiv.textContent = '';
+      }
+    }
+  });
+</script>
+
+
+
