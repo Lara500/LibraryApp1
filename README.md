@@ -11,8 +11,8 @@ User Registration and Authentication: Supports registration and login for both r
 Loan Management: Librarians can manage the loan and return process of books and track the loan history.
 
 Technologies:
-Ruby on Rails
-Bootstrap
+Ruby on Rails,
+Bootstrap,
 PostgreSQL
 
 [PL]
@@ -27,8 +27,8 @@ Rejestracja i Autoryzacja Użytkowników: System umożliwia rejestrację i logow
 Zarządzanie Wypożyczeniami: Bibliotekarze mogą zarządzać procesem wypożyczeń i zwrotów książek, a także śledzić historię wypożyczeń.
 
 Technologie:
-Ruby on Rails
-Bootstrap
+Ruby on Rails,
+Bootstrap,
 PostgreSQL
 
 
