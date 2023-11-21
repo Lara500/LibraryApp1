@@ -1,0 +1,56 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence	#87CEEB over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+ @import "bootstrap";
+
+
+ .bg-blue {
+    color: #FFFFFF;
+    background-color: #1e86dc;
+    
+  }
+
+ .btn-accent2 {
+    color: #FFFFFF !important;
+    background-color: #3255c6 !important;
+  }
+
+ .navbar-brand-custom {
+    color: #4e29b0;
+    font-size: 2em !important;
+  }
+
+  .book-image {
+    width: 100px; /* Przykładowa szerokość */
+    height: auto;
+  }
+
+  .book-image2 {
+    width: 200px; /* Przykładowa szerokość */
+    height: auto;
+  }
+
+//   $theme-colors: (
+//     "light":      #f0e9e9,
+//     "dark":       #1e86dc,
+//     "primary":    #4e29b0,
+//     "secondary":  #3255c6,
+//     "info":       #00a6e5,
+//     "accent1":    #cdc3af,
+//     "accent2":    #5a7aaf,
+//     "accent3":    #a5a8ab,
+//     "success":    #00b26a,
+//     "warning":    #e4cf00,
+//     "danger":     #f52300,
+// );
+

@@ -1,6 +1,14 @@
 <!-- app/views/books/new.html.erb -->
+<div class="container py-4">
+  <div class="p-4 mb-4 bg-light rounded-3">
+    <h1>Dodaj Nową Książkę</h1>
+    <%= render 'form', book: @book %>
 
-<h1>Dodaj Nową Książkę</h1>
-<%= render 'form', book: @book %>
+    <%= link_to 'Powrót do Listy', books_path %>
 
-<%= link_to 'Powrót do Listy', books_path %>
+  </div>
+</div>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; Sonia Leszkiewicz 2023</p>
+</footer>

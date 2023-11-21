@@ -47,7 +47,7 @@ class BooksController < ApplicationController
     private
 
     def book_params
-        params.require(:book).permit(:title, :author, :description, :genre, :release_date, :publisher, :ISBN, :page_number, :translation, :rental_status)
+        params.require(:book).permit(:image, :title, :author, :description, :genre, :release_date, :publisher, :ISBN, :page_number, :translation, :status)
     end
 
     def check_librarian

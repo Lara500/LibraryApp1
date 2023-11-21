@@ -3,7 +3,7 @@ class RentalsController < ApplicationController
     before_action :check_librarian, only: [:new, :create, :edit, :update, :destroy]
     before_action :require_reader_identification, only: [:create, :new]
   
-  def new
+     def new
         @rental = Rental.new
         @rental.book_id = params[:book_id] if params[:book_id]
       end
@@ -11,7 +11,6 @@ class RentalsController < ApplicationController
 
     def create
       reader = verify_reader(session[:current_reader_id]) 
-
     if reader
 
        @rental = Rental.new(rental_params)

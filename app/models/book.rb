@@ -1,4 +1,5 @@
 class Book < ApplicationRecord
+    has_one_attached :image
     has_many :rentals
     has_many :readers, through: :rentals
 
