@@ -1,0 +1,36 @@
+<div class="container py-4">
+  <div class="p-4 mb-4 bg-light rounded-3">
+    <h1>Wypożyczenia Czytelnika: <%= @reader.first_name + " " + @reader.last_name %></h1>
+
+    <div class="list-group">
+      <% @rentals.each do |rental| %>
+        <div class="list-group-item">
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <%= image_tag rental.book.image, class: 'book-image2' if rental.book.image.attached? %>
+            </div>
+            <div class="col-md-6">
+              <h3 class="mb-1"><%= link_to rental.book.title, book_path(rental.book) %></h3>
+              <p class="mb-1"><strong>Autor:</strong> <%= rental.book.author %></p>
+              <p class="mb-1"><strong>Data wypożyczenia:</strong> <%= rental.created_at.to_date %></p>
+              <p class="mb-1"><strong>Data zwrotu:</strong> <%= rental.expected_return_date %></p>
+              <p class="mb-1"><strong>Data zwrócenia:</strong> <%= rental.return_date || 'Nie zwrócono jeszcze' %></p>
+            </div>
+            <% if current_user.librarian? && rental.return_date.nil? %>
+              <div class="col-md-2 text-md-end">
+                <div class="btn-group" role="group" aria-label="Akcje wypożyczenia">
+                  <%= link_to 'Zwróć', return_rental_path(rental), method: :post, class: 'btn btn-primary' %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; Sonia Leszkiewicz 2023</p>
+</footer>
+
