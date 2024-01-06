@@ -5,7 +5,7 @@ class RentalsController < ApplicationController
   
      def new
         @rental = Rental.new
-        @rental.book_id = params[:book_id] if params[:book_id]
+        @rental.book_id = params[:book] if params[:book]
       end
   
 

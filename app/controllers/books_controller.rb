@@ -3,7 +3,8 @@ class BooksController < ApplicationController
   before_action :check_librarian, only: [:new, :create, :edit, :update, :destroy]
 
     def index
-      @books = Book.all
+      @q = Book.ransack(params[:q])
+      @pagy, @books = pagy(@q.result(distinct: true), items: 50)
     end
   
     def show

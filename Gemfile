@@ -11,6 +11,10 @@ gem "sprockets-rails"
 
 gem 'pg'
 
+gem 'pagy'
+
+gem 'ransack', '~> 4.1.1'
+
 gem 'byebug'
 
 # Use the Puma web server [https://github.com/puma/puma]

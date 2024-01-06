@@ -1,8 +1,10 @@
 <!-- app/views/books/index.html.erb -->
 <div class="container py-4">
   <div class="p-4 mb-4 bg-light rounded-3">
+  
     <h1>Lista Książek</h1>
 
+    <%== pagy_bootstrap_nav(@pagy) %>
     <div class="list-group">
       <% @books.each do |book| %>
         <div class="list-group-item">
@@ -32,6 +34,8 @@
     <% if current_user.librarian? %>
       <%= link_to 'Dodaj Nową Książkę', new_book_path, class: 'btn btn-primary' %>
     <% end %>
+
+    <%== pagy_bootstrap_nav(@pagy) %>
   </div>
 </div>
 

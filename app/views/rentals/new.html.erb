@@ -1,24 +1,50 @@
 <!-- app/views/rentals/new.html.erb -->
+  <% book = Book.find_by(id: @rental.book_id)  %>
+  <% reader = User.find_by(id: session[:current_reader_id])  %>
+  <% reader_card = ReaderCard.find_by(user_id: reader.id)  %>
+  
 
-<% if @book.present? %>
-  <h2>Informacje o książce:</h2>
-  <p><strong>Tytuł:</strong> <%= @book.title %></p>
-  <p><strong>Autor:</strong> <%= @book.author %></p>
-<% end %>
 
-<% if @reader.present? %>
-  <h2>Informacje o czytelniku:</h2>
-  <p><strong>Imię i nazwisko:</strong> <%= @reader.full_name %></p> <!-- Zakładając, że masz metodę full_name w modelu User -->
-  <p><strong>Numer karty:</strong> <%= @reader_card.number %></p> <!-- Zakładając, że masz zmienną @reader_card -->
-<% end %>
 
-<% if @book.present? && @reader.present? %>
-  <!-- Tutaj możesz dodać link do akcji wypożyczenia, jeśli potrzebujesz -->
-  <%= link_to "Wypożycz książkę", some_path_to_rental_action, method: :post, class: 'btn btn-primary' %>
-<% end %>
+<!-- app/views/books/show.html.erb -->
+<div class="container py-4">
+  <div class="p-4 mb-4 bg-light rounded-3">
+<div class="container mt-4">
+  <div class="row">
+    <h2>Informacje o książce:</h2>
+    <div class="col-md-2">
+      <% if book.image.attached? %>
+        <%= image_tag book.image, class: 'img-fluid', width: '150', height: 'auto' %>
+      <% else %>
+        <p>Brak zdjęcia.</p>
+      <% end %>
+    </div>
 
-<%= form_with model: @rental, url: rentals_path, local: true do |form| %>
-  <%= form.hidden_field :book_id %>
+    <div class="col-md-3">
+      <p><strong>Tytuł:</strong> <%= book.title %></p>
+      <p><strong>Autor:</strong> <%= book.author %></p>
+    </div>
 
-  <%= form.submit "Wypożycz" %>
-<% end %>
+
+    <h2>Informacje o czytelniku:</h2>
+
+    <div class="col-md-9">
+      <p><strong>Imię i nazwisko:</strong> <%= reader.first_name + " " + reader.last_name  %></p>
+      <p><strong>Numer karty:</strong> <%= reader_card.number %></p>
+    </div>
+  </div>
+
+  <%= form_with model: @rental, url: rentals_path, local: true do |form| %>
+    <%= form.hidden_field :book_id %>
+
+    <%= form.submit "Wypożycz", class: 'btn btn-primary'%>
+  <% end %>
+
+</div>
+
+  </div>
+</div>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+  <p class="mb-1">&copy; Sonia Leszkiewicz 2023</p>
+</footer>
