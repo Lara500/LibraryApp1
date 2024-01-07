@@ -45,6 +45,7 @@ class BooksController < ApplicationController
         redirect_to books_url, notice: 'Książka została pomyślnie usunięta.'
     end
 
+
     private
 
     def book_params
